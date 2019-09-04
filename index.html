@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Broker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        .content {
+            height: 330px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .label {
+            text-align: left;
+            float: left
+        }
+
+        table tr {
+            text-align: center
+        }
+
+        #notif,
+        #history {
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+
+    <br>
+    <div class="ui long  modal " id="message">
+        <div class="header">
+            Messages
+        </div>
+        <div class=" scrolling content">
+            <table class="ui selectable  celled table">
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>Message</th>
+                        <th>TimeSpan</th>
+                    </tr>
+                </thead>
+                <tbody id="msg">
+                </tbody>
+            </table>
+        </div>
+        <div class="actions">
+            <div id="clr-msg" class="ui left basic outline icon red  button ">
+                <i class="trash icon"></i>
+                <span >Clear Messages</span>
+            </div>
+            <div class="ui black deny button">
+                Close
+            </div>
+        </div>
+    </div>
+    <!-- History Modal Publish Only -->
+    <div class="ui long  modal " id="pubHistory">
+        <div class="header">
+            Publish History
+        </div>
+        <div class=" scrolling content">
+            <table class="ui selectable  celled table">
+                <thead>
+
+                    <tr>
+                        <th>Topic</th>
+                        <th>Message</th>
+                        <th>TimeSpan</th>
+                    </tr>
+                </thead>
+                <tbody id="hist">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="actions">
+            <div id="clr-hist" class="ui left basic outline icon red  button ">
+                <i class="trash icon"></i>
+                <span>Clear Publish History</span>
+            </div>
+            <div class="ui black deny button">
+                Close
+            </div>
+        </div>
+    </div>
+    <!-- end Pub -->
+    <h2 class="ui icon header aligned center">
+        <i aria-hidden="true" class="settings icon"></i>
+        <div class="sub header">MQTT over Websocket </div>
+    </h2>
+    <br>
+    <br>
+    <div class="ui stackable divided three column centered grid container">
+        <div class=" stackable three column row">
+            <div class="column">
+                <center>
+                    <div class="ui card">
+                        <div class="content">
+                            <div class="header">
+                                <p class="">Publisher<a id="history" class="ui label ">
+                                        <span class="counter" class=""> <i class="history icon"></i></span>
+                                    </a></p>
+                            </div>
+                            <hr>
+                            <div class="description">
+                                <!-- publisher card -->
+                                <br>
+                                <div class="ui fluid form">
+                                    <div class="field" placeholder="Topic">
+                                        <div class="ui pointing below label">
+                                            Please enter a Topic
+                                        </div>
+                                        <input type="text" id="topic">
+                                    </div>
+                                    <br>
+                                    <div class="field" placeholder="Payload">
+                                        <div class="ui pointing below label">
+                                            Please enter your Message
+                                        </div>
+                                        <input type="text" id="payload">
+                                    </div>
+                                </div>
+                                <br>
+                                <center>
+                                    <button class="ui right wifi icon positive button button btn-publish">
+                                        <i class="sellsy icon"></i>
+                                        Publish
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </center>
+            </div>
+            <div class="column">
+                <center>
+                    <div class="ui card">
+                        <div class="content">
+                            <div class="header">
+                                <p class="h4 text-center">Broker</p>
+                            </div>
+                            <hr>
+                            <div class="description">
+                                <!-- connector card -->
+                                <br>
+                                <div class="ui fluid form">
+                                    <div class="field" placeholder="Topic">
+                                        <div class="ui pointing below label">
+                                            Address
+                                        </div>
+                                        <input type="text" id="address" value="ws://broker.hivemq.com:8000/mqtt">
+                                    </div>
+                                    <br>
+                                    <!-- status -->
+                                </div>
+
+                                <div class="ui visible red message">
+                                    <p class="status"> Disconnected</p>
+                                </div>
+                                <br>
+                                <center>
+                                    <button id="conBtn" class="ui left wifi icon positive button btn-connect">
+                                        <i class="wifi icon"></i>
+                                        <span id="text">Connect</span>
+                                    </button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </center>
+            </div>
+            <div class="column">
+                <center>
+                    <div class="ui card">
+
+                        <div class="content">
+                            <div class="header">
+                                <p class=""><a id="notif" class="ui label ">
+                                        <span class="counter" class=""> <i class="mail icon"></i>!</span>
+                                    </a>Subscriber</p>
+
+
+                            </div>
+                            <hr>
+                            <div class="description">
+                                <!-- subscriber card -->
+                                <br>
+                                <div class="ui fluid form">
+                                    <div class="field" placeholder="Topic">
+                                        <div class="ui pointing below label">
+                                            Please enter a Topic to Subscribe
+                                        </div>
+                                        <input type="text" id="topic_s">
+                                    </div>
+                                    <p></p>
+                                </div>
+                                <center>
+                                    <button class="ui right positive icon button btn-subscribe">
+                                        <i class="thumbs up icon"></i>
+                                        Subscribe
+                                    </button>
+                                </center>
+                                <br>
+                                <select class="ui fluid search selection dropdown">
+                                    <option value="" disabled selected>Select a topic to Unscubscribe</option>
+                                </select>
+                                <center>
+                                    <br>
+                                    <button class="ui right negative icon button btn-unsubscribe">
+                                        <i class="thumbs down icon"></i>
+                                        Unsubscribe
+                                    </button>
+                                </center>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        </center>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.js" -->
+    <!-- integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
+    <script src="scripts/browserMqtt.js"></script>
+    <script src="scripts/controller.js"></script>
+</body>
+<!-- wss://test.mosquitto.org:8081/mqtt -->
+
+</html>
