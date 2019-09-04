@@ -77,9 +77,9 @@ $(document).ready(function () {
             text: 'Please add a Topic or/and a Payload!',
           });
         } else {
-          setInterval(function () {
-          client.publish(my_topic,"Yol : "+ my_payload)
-          }, 2000)
+//           setInterval(function () {
+          client.publish(my_topic, my_payload)
+//           }, 2000)
           timestamp = moment().format('MMMM D YYYY , h:mm:ss a')
 
           var tr = $("<tr>")
